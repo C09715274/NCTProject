@@ -57,6 +57,8 @@ public class Login {
 		LoginForm.add(sub);
 		LoginHandler LoginHandlerObject = new LoginHandler();
 		sub.addActionListener(LoginHandlerObject);
+		
+		
 
 	}
 	
@@ -89,7 +91,6 @@ public class Login {
 				String CallUsername = "SELECT Staff_Name FROM staff WHERE Staff_Name='"+ SUsername +"'"  ;
 		        PreparedStatement UsernameStatement = LoginDBObject.connect.prepareStatement(CallUsername);
 				ResultSet ResultsUsername = UsernameStatement.executeQuery();
-
 
 				while(ResultsUsername.next()){
 					
