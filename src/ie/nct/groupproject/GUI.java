@@ -46,7 +46,7 @@ public class GUI extends JFrame {
 		contentPane = createContentPane();
 		main = new JPanel(new FlowLayout(FlowLayout.CENTER));
 		main.setLayout(null);
-		main.setBackground(new Color(0, 255, 255));//shit
+		main.setBackground(new Color(255, 255, 255));
 		main.setPreferredSize(new Dimension(962, 600));
 		main.setBounds(202, 104, 962, 665);
 		//main.add(LoginForm);
@@ -59,7 +59,7 @@ public class GUI extends JFrame {
 		JPanel panel = new JPanel();
 		panel.setLayout(null);
 		panel.setPreferredSize(new Dimension(50, 50));
-		panel.setBackground(new Color(0, 0, 255)); //blue
+		panel.setBackground(new Color(25, 255, 255)); //blue
 		panel.setLocation(400, 80);
 
 		contentPane.add(BG);
@@ -75,7 +75,7 @@ public class GUI extends JFrame {
 		// TODO Auto-generated method stub
 		JPanel pane = new JPanel();
 		pane.setLayout(null);
-		pane.setBackground(new Color(0, 233, 0));//green
+		pane.setBackground(new Color(238, 233, 233));//green
 		return pane;
 	}
 
@@ -92,7 +92,7 @@ public class GUI extends JFrame {
 		BG.setLayout(null);
 		BG.setBounds(0, 0, 1366, 768);
 		BG.setPreferredSize(new Dimension(1366, 768));
-		BG.setBackground(new Color(255, 0, 0));//red
+		BG.setBackground(new Color(0, 108, 90));//red
 		BG.add(imagelabel);
 		BG.add(main);
 

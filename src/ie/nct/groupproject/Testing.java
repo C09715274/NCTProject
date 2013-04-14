@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -125,15 +126,23 @@ public class Testing {
 				String SContactIn=contactin.getText();
 
 			
+				DB bookingDB = new DB();
+				Statement callStatement = bookingDB.connect.createStatement();
+
 				
-				
-				String selectCustomerID = "Select Customer_ID From Customer ";
+				//String selectCustomerID = "Select Customer_ID From Customer ";
 				if(SCustomerIDin.isEmpty()){
 				String InsertCustomerDetails="INSERT INTO Customers (Customer_First_Name, Customer_Last_Name, Customer_PHNumber, Address1, Address2, Address3) " +
 						"VALUES('"+SFnameIn+"', '"+SSnameIn+"', '"+SContactIn+"', '"+SAddIn1+"', '"+ SAddIn2 +"', '"+ SAddIn3 +"','"+SAddIn3 ;
-				String InsertBookingAppoitment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"+ STimeIn+"', '"+SDateIn+"', '"+ SCustomerIDin+"')";
+				String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"+ STimeIn+"', '"+SDateIn+"', '"+ SCustomerIDin+"')";
+				
+				callStatement.execute(InsertCustomerDetails);
+				callStatement.execute(InsertBookingAppointment);
+				
 				}else{
-				String InsertBookingAppoitment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"+ STimeIn+"', '"+SDateIn+"', '"+ SCustomerIDin+"')";
+				String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"+ STimeIn+"', '"+SDateIn+"', '"+ SCustomerIDin+"')";
+				callStatement.execute(InsertBookingAppointment);
+
 				}
 				
 				

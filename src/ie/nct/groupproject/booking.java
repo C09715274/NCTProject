@@ -1,97 +1,49 @@
 package ie.nct.groupproject;
 
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
-import javax.swing.ImageIcon;
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-public class booking extends JFrame{
+public class Booking {
 
-	JPanel contentPane;
-	JPanel body;
-	
-	
-	
-	public booking() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	JPanel BookingForm;
 
-		setBounds(0, 0, 1366, 768);
-		contentPane = createContentPane();
-		setContentPane(contentPane);
-		contentPane.add(createBackground());
+	JTextField fnamein;
+	JTextField snamein;
 
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(50, 50));
-		panel.setBackground(new Color(25, 255, 255));
-		panel.setLocation(400, 80);
+	JTextField regin;
+	JTextField add1in;
+	JTextField add2in;
+	JTextField add3in;
+	JTextField datein;
+	JTextField timein;
+	JTextField contactin;
+	JTextField makein;
+	JTextField modelin;
+	JTextField CustomerIDin;
+	protected String dbUser = "LoginBot";
+	protected String dbPassword = "rawr";
 
-		contentPane.add(createBackground());
-		createBackground().add(createBanner());
-		createBackground().add(createBody());
+	DB LoginDBObject = null;
 
-	}
+	public Booking() {
 
-	private JPanel createContentPane() {
 		// TODO Auto-generated method stub
-		JPanel pane = new JPanel();
-		pane.setLayout(null);
-		pane.setBackground(new Color(238, 233, 233));
-		return pane;
-	}
 
-	private JLabel createBanner() {
-		setLayout(new FlowLayout());
-		JLabel imagelabel = new JLabel();
-		imagelabel.setBounds(202, 0, 962, 103);
-		imagelabel.setIcon(new ImageIcon("banner.png"));
+		BookingForm = new JPanel();
+		BookingForm.setLayout(new GridLayout(7, 4, 10, 10));
 
-		return imagelabel;
-	}
-
-	private JPanel createBackground() {
-		JPanel BG = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		BG.setLayout(null);
-		BG.setBounds(0, 0, 1366, 768);
-		BG.setPreferredSize(new Dimension(1366, 768));
-		BG.setBackground(new Color(0, 108, 90));
-		BG.add(createBanner());
-		BG.add(createBody());
-
-		return BG;
-
-	}
-
-	private JPanel createBody() {
-
-		JPanel main = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		main.setLayout(null);
-		main.setBackground(new Color(255, 255, 255));
-		main.setPreferredSize(new Dimension(962, 600));
-		main.setBounds(202, 104, 962, 665);
-		JLabel title = new JLabel("New Booking");
-		title.setFont(new Font("Serif", Font.PLAIN, 30));
-		title.setBounds(420, 0, 300, 100);
-		main.add(title);
-		main.add(form());
-		return main;
-
-	}
-	
-	private JPanel form() {
-		// TODO Auto-generated method stub
-		JPanel form = new JPanel();
-		JLabel blank = new JLabel();
-		JLabel blank1 = new JLabel();
-		form.setLayout(new GridLayout(7,4,10,10));
+		BookingForm.setPreferredSize(new Dimension(700, 400));
+		BookingForm.setBounds(110, 110, 700, 300);
+		JLabel customerID = new JLabel("CustomerID(If avaiable)");
 		JLabel fname = new JLabel("First Name: ");
 		JLabel sname = new JLabel("Surname: ");
 		JLabel add1 = new JLabel("Address 1: ");
@@ -99,50 +51,118 @@ public class booking extends JFrame{
 		JLabel add3 = new JLabel("Address 3: ");
 		JLabel reg = new JLabel("Registration: ");
 		JLabel contact = new JLabel("Contact No.: ");
-		JLabel make = new JLabel("Make: ");
-		JLabel model = new JLabel("Model: ");
 		JLabel date = new JLabel("Date: ");
 		JLabel time = new JLabel("Time: ");
-		JTextField snamein = new JTextField(15);
 		JButton sub = new JButton("Submit");
-		
-		JTextField fnamein = new JTextField(15);
-		JTextField regin = new JTextField(15);
-		JTextField add1in = new JTextField(15);
-		JTextField add2in = new JTextField(15);
-		JTextField add3in = new JTextField(15);
-		JTextField datein = new JTextField(15);
-		JTextField timein = new JTextField(15);
-		JTextField contactin = new JTextField(15);
-		JTextField makein = new JTextField(15);
-		JTextField modelin = new JTextField(15);
-		//form.setPreferredSize(new Dimension(400, 400));
-		form.setBounds(110, 110, 700, 300);
-		
-		form.add(fname);
-		form.add(fnamein);
-		form.add(reg);
-		form.add(regin);
-		form.add(sname);
-		form.add(snamein);
-		form.add(date);
-		form.add(datein);
-		form.add(add1);
-		form.add(add1in);
-		form.add(time);
-		form.add(timein);
-		form.add(add2);
-		form.add(add2in);
-		form.add(make);
-		form.add(makein);
-		form.add(add3);
-		form.add(add3in);
-		form.add(model);
-		form.add(modelin);
-		form.add(contact);
-		form.add(contactin);
-		form.add(sub);
-		return form;
+
+		snamein = new JTextField(15);
+		CustomerIDin = new JTextField(15);
+		fnamein = new JTextField(15);
+		regin = new JTextField(15);
+		add1in = new JTextField(15);
+		add2in = new JTextField(15);
+		add3in = new JTextField(15);
+		datein = new JTextField(15);
+		timein = new JTextField(15);
+		contactin = new JTextField(15);
+
+		BookingForm.add(customerID);
+		BookingForm.add(CustomerIDin);
+		BookingForm.add(fname);
+		BookingForm.add(fnamein);
+		BookingForm.add(reg);
+		BookingForm.add(regin);
+		BookingForm.add(sname);
+		BookingForm.add(snamein);
+		BookingForm.add(date);
+		BookingForm.add(datein);
+		BookingForm.add(add1);
+		BookingForm.add(add1in);
+		BookingForm.add(time);
+		BookingForm.add(timein);
+		BookingForm.add(add2);
+		BookingForm.add(add2in);
+		BookingForm.add(add3);
+		BookingForm.add(add3in);
+		BookingForm.add(contact);
+		BookingForm.add(contactin);
+		BookingForm.add(sub);
+
+		BookingHandler BookingHandlerObject = new BookingHandler();
+		sub.addActionListener(BookingHandlerObject);
+
 	}
-	
+
+	private class BookingHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+
+			try {
+				LoginDBObject = new DB(dbUser, dbPassword);
+				System.out.println("\n Booking database");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("\n Booking database failed");
+			}
+
+			try {
+
+				String SCustomerIDin = CustomerIDin.getText();
+				String SFnameIn = fnamein.getText();
+				String SSnameIn = snamein.getText();
+				String SAddIn1 = add1in.getText();
+				String SAddIn2 = add2in.getText();
+				String SAddIn3 = add3in.getText();
+				String SDateIn = datein.getText();
+				String STimeIn = timein.getText();
+				String SContactIn = contactin.getText();
+
+				DB bookingDB = new DB();
+				Statement callStatement = bookingDB.connect.createStatement();
+
+				// String selectCustomerID =
+				// "Select Customer_ID From Customer ";
+				if (SCustomerIDin.isEmpty()) {
+					String InsertCustomerDetails = "INSERT INTO Customers (Customer_First_Name, Customer_Last_Name, Customer_PHNumber, Address1, Address2, Address3) "
+							+ "VALUES('"
+							+ SFnameIn
+							+ "', '"
+							+ SSnameIn
+							+ "', '"
+							+ SContactIn
+							+ "', '"
+							+ SAddIn1
+							+ "', '"
+							+ SAddIn2 + "','" + SAddIn3;
+					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"
+							+ STimeIn
+							+ "', '"
+							+ SDateIn
+							+ "', '"
+							+ SCustomerIDin + "')";
+
+					callStatement.execute(InsertCustomerDetails);
+					callStatement.execute(InsertBookingAppointment);
+
+				} else {
+					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"
+							+ STimeIn
+							+ "', '"
+							+ SDateIn
+							+ "', '"
+							+ SCustomerIDin + "')";
+					callStatement.execute(InsertBookingAppointment);
+
+				}
+
+			} catch (SQLException bookingExc) {
+				bookingExc.printStackTrace();
+			}
+
+		}
+	}
+
 }
