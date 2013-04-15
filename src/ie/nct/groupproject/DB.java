@@ -6,7 +6,7 @@ public  class DB{
 	Connection connect = null;
 
 	public DB(){} //no argument constructor
-	public DB( String _username, String _password ) throws Exception{
+	public DB(String _username, String _password) throws Exception{
 		
 		try {
 			System.out.println("connecting to driver");

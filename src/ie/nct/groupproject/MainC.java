@@ -17,12 +17,10 @@ public class MainC extends JFrame {
 					
 					GUI GUIObject = new GUI();
 
-					Login LoginObject = new Login();
+				//	Login LoginObject = new Login();
 					
-				//	BookingTest BookingTestObject = new BookingTest();
-					Testing TestingObject = new Testing();
-					GUIObject.main.add(TestingObject.form);
-					//GUIObject.main.add(LoginObject.LoginForm);
+					Booking BookingTestObject = new Booking();
+					GUIObject.main.add(BookingTestObject.BookingForm);
 
 				} catch (Exception e) {
 					e.printStackTrace();
