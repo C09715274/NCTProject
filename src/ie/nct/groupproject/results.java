@@ -124,15 +124,18 @@ public class results {
 				String sRearAxelin = RearAxelin.getText();
 				String sFrontAxelin = FrontAxelin.getText();
 				String sRearAxelNearIn = RearAxelNearIn.getText();
-				String sFronAxelNearIn = FrontAxelNearIn.getText();
+				String sFrontAxelNearIn = FrontAxelNearIn.getText();
 				String sRearAxelOffIn = RearAxelOffIn.getText();
+				String sFrontAxelOffIn = FrontAxelOffIn.getText();
 				String slowIdlein = lowIdlein.getText();
 				String sHighIdlein = highIdlein.getText();
 
 				DB bookingDB = new DB();
 				Statement callStatement = bookingDB.connect.createStatement();
 
-				String InsertTestResults1 = "INSERT";
+				String InsertTestResults1 = "INSERT INTO Results1 " +
+						"(REAXLE, FRONTAXLE, REARAXLENEAR, FRONTAXELNEAR, REARAXLEOFF, FRONTAXLEOF, LOWIDLE, HIGHIDLE) " +
+						"VALUES ('" +sRearAxelin+"', '"+ sFrontAxelin+ "', '"+sRearAxelNearIn+ "', '"+sFrontAxelNearIn+ "', '"+sRearAxelOffIn+ "', '"+sFrontAxelOffIn+ "', '"+slowIdlein+ "', '"+highIdlein+ "')";
 
 				callStatement.execute(InsertTestResults1);
 

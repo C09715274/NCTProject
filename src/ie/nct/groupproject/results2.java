@@ -35,7 +35,7 @@ public class results2 extends JFrame {
 	JTextField ovalrearnin;
 	JTextField ovalfrontoin;
 	JTextField ovalrearoin;
-	
+
 	DB Results2DBObject = null;
 
 	protected String dbUser = "LoginBot";
@@ -127,22 +127,39 @@ public class results2 extends JFrame {
 
 				String sraxelnin = raxelnin.getText();
 				String sfaxelnin = faxelnin.getText();
-				
+
 				String sparkbreaknin = parkbreaknin.getText();
 				String sparkbreakoin = parkbreakoin.getText();
-				
+
 				String sfaxeloin = faxeloin.getText();
 				String sraxeloin = raxeloin.getText();
-			
+
 				String sovalfrontin = ovalfrontnin.getText();
-				String sovalrearnin =ovalrearnin.getText();
-				String sovalfrontoin =ovalfrontoin.getText();
-				String sovalrearoin =ovalrearoin.getText();
-			
+				String sovalrearnin = ovalrearnin.getText();
+				String sovalfrontoin = ovalfrontoin.getText();
+				String sovalrearoin = ovalrearoin.getText();
+
 				DB bookingDB = new DB();
 				Statement callStatement = bookingDB.connect.createStatement();
 
-				String InsertTestResults1 = "INSERT";
+				String InsertTestResults1 = "INSERT INTO Results2 ( RAXELN, FAXELN, PARKBREAKN, FAXELO, RAXELO, OVALFRONTI, OVALREARI, OVALREARO, OVALFRONTI) Values '"
+						+ sraxelnin
+						+ "', '"
+						+ sfaxelnin
+						+ "', '"
+						+ sparkbreaknin
+						+ "', '"
+						+ sparkbreakoin
+						+ "', '"
+						+ sfaxeloin
+						+ "', '"
+						+ sraxeloin
+						+ "', '"
+						+ sovalfrontin
+						+ "', '"
+						+ sovalrearnin
+						+ "', '"
+						+ sovalfrontoin + "', '" + sovalrearoin + "')";
 
 				callStatement.execute(InsertTestResults1);
 
