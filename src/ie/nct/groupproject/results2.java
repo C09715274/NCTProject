@@ -6,6 +6,10 @@ import java.awt.EventQueue;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
@@ -17,102 +21,33 @@ import javax.swing.JButton;
 @SuppressWarnings("serial")
 public class results2 extends JFrame {
 
-	
 	JPanel contentPane;
 	JPanel body;
+	JPanel form;
+
+	JTextField raxelnin;
+	JTextField faxelnin;
+	JTextField parkbreaknin;
+	JTextField parkbreakoin;
+	JTextField faxeloin;
+	JTextField raxeloin;
+	JTextField ovalfrontnin;
+	JTextField ovalrearnin;
+	JTextField ovalfrontoin;
+	JTextField ovalrearoin;
 	
-	
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					results2 frame = new results2();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-	
+	DB Results2DBObject = null;
+
+	protected String dbUser = "LoginBot";
+	protected String dbPassword = "rawr";
+
 	public results2() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		setBounds(0, 0, 1366, 768);
-		contentPane = createContentPane();
-		setContentPane(contentPane);
-		contentPane.add(createBackground());
-
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(50, 50));
-		panel.setBackground(new Color(25, 255, 255));
-		panel.setLocation(400, 80);
-
-		contentPane.add(createBackground());
-		createBackground().add(createBanner());
-		createBackground().add(createBody());
-
-	}
-
-	private JPanel createContentPane() {
-		// TODO Auto-generated method stub
-		JPanel pane = new JPanel();
-		pane.setLayout(null);
-		pane.setBackground(new Color(238, 233, 233));
-		return pane;
-	}
-
-	private JLabel createBanner() {
-		getContentPane().setLayout(new FlowLayout());
-		JLabel imagelabel = new JLabel();
-		imagelabel.setBounds(202, 0, 962, 103);
-		imagelabel.setIcon(new ImageIcon("banner.png"));
-
-		return imagelabel;
-	}
-
-	private JPanel createBackground() {
-		JPanel BG = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		BG.setLayout(null);
-		BG.setBounds(0, 0, 1366, 768);
-		BG.setPreferredSize(new Dimension(1366, 768));
-		BG.setBackground(new Color(0, 108, 90));
-		
-		JButton backButton = new JButton("Back");
-		JButton submitButton = new JButton("Submit");
-		backButton.setBounds(500, 650, 100, 40);
-		submitButton.setBounds(650, 650, 100, 40);
-		BG.add(createBanner());
-		BG.add(createBody());
-		BG.add(backButton);
-		BG.add(submitButton);
-		return BG;
-
-	}
-
-	private JPanel createBody() {
-
-		JPanel main = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		main.setLayout(null);
-		main.setBackground(new Color(255, 255, 255));
-		main.setPreferredSize(new Dimension(962, 600));
-		main.setBounds(202, 104, 962, 665);
-		JLabel title = new JLabel("Results");
-		title.setFont(new Font("Serif", Font.PLAIN, 30));
-		title.setBounds(420, 0, 300, 100);
-		main.add(title);
-		main.add(form());
-		return main;
-
-	}
-	
-	private JPanel form() {
 		// TODO Auto-generated method stub
 		JPanel form = new JPanel();
 		form.setBounds(110, 110, 700, 400);
-		form.setLayout(new GridLayout(7,4,10,10));
-		
+		form.setLayout(new GridLayout(7, 4, 10, 10));
+
 		JLabel blank = new JLabel();
 		JLabel blank1 = new JLabel();
 		JLabel blank2 = new JLabel();
@@ -131,20 +66,18 @@ public class results2 extends JFrame {
 		JLabel ovalrearn = new JLabel("Rear Axel Near:");
 		JLabel ovalfronto = new JLabel("Front Axel Off: ");
 		JLabel ovalrearo = new JLabel("Rear Axel Off");
-	
-		
-		JTextField raxelnin = new JTextField(15);
-		JTextField faxelnin = new JTextField(15);
-		JTextField parkbreaknin = new JTextField(15);
-		JTextField parkbreakoin = new JTextField(15);
-		JTextField faxeloin = new JTextField(15);
-		JTextField raxeloin = new JTextField(15);
-		JTextField ovalfrontnin = new JTextField(15);
-		JTextField ovalrearnin = new JTextField(15);
-		JTextField ovalfrontoin = new JTextField(15);
-		JTextField ovalrearoin = new JTextField(15);
-		
-		
+
+		raxelnin = new JTextField(15);
+		faxelnin = new JTextField(15);
+		parkbreaknin = new JTextField(15);
+		parkbreakoin = new JTextField(15);
+		faxeloin = new JTextField(15);
+		raxeloin = new JTextField(15);
+		ovalfrontnin = new JTextField(15);
+		ovalrearnin = new JTextField(15);
+		ovalfrontoin = new JTextField(15);
+		ovalrearoin = new JTextField(15);
+
 		form.add(effort);
 		form.add(blank);
 		form.add(blank1);
@@ -173,7 +106,51 @@ public class results2 extends JFrame {
 		form.add(ovalfrontoin);
 		form.add(ovalrearo);
 		form.add(ovalrearoin);
-		return form;
 	}
-	
+
+	private class BookingHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+
+			try {
+				Results2DBObject = new DB(dbUser, dbPassword);
+				System.out.println("\n Booking database");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("\n Booking database failed");
+			}
+
+			try {
+
+				String sraxelnin = raxelnin.getText();
+				String sfaxelnin = faxelnin.getText();
+				
+				String sparkbreaknin = parkbreaknin.getText();
+				String sparkbreakoin = parkbreakoin.getText();
+				
+				String sfaxeloin = faxeloin.getText();
+				String sraxeloin = raxeloin.getText();
+			
+				String sovalfrontin = ovalfrontnin.getText();
+				String sovalrearnin =ovalrearnin.getText();
+				String sovalfrontoin =ovalfrontoin.getText();
+				String sovalrearoin =ovalrearoin.getText();
+			
+				DB bookingDB = new DB();
+				Statement callStatement = bookingDB.connect.createStatement();
+
+				String InsertTestResults1 = "INSERT";
+
+				callStatement.execute(InsertTestResults1);
+
+			} catch (SQLException bookingExc) {
+				bookingExc.printStackTrace();
+			}
+
+		}
+	}
+
 }

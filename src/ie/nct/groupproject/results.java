@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -14,88 +18,29 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 @SuppressWarnings("serial")
-public class results extends JFrame{
+public class results {
 
 	JPanel contentPane;
 	JPanel body;
-	
-	
-	
+	JPanel form;
+
+	JTextField RearAxelin;
+	JTextField FrontAxelin;
+	JTextField RearAxelNearIn;
+	JTextField FrontAxelNearIn;
+	JTextField RearAxelOffIn;
+	JTextField FrontAxelOffIn;
+	JTextField lowIdlein;
+	JTextField highIdlein;
+
+	DB Results1DBObject = null;
+
+	protected String dbUser = "LoginBot";
+	protected String dbPassword = "rawr";
+
 	public results() {
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		setBounds(0, 0, 1366, 768);
-		contentPane = createContentPane();
-		setContentPane(contentPane);
-		contentPane.add(createBackground());
-
-		JPanel panel = new JPanel();
-		panel.setLayout(null);
-		panel.setPreferredSize(new Dimension(50, 50));
-		panel.setBackground(new Color(25, 255, 255));
-		panel.setLocation(400, 80);
-
-		contentPane.add(createBackground());
-		createBackground().add(createBanner());
-		createBackground().add(createBody());
-
-	}
-
-	private JPanel createContentPane() {
 		// TODO Auto-generated method stub
-		JPanel pane = new JPanel();
-		pane.setLayout(null);
-		pane.setBackground(new Color(238, 233, 233));
-		return pane;
-	}
-
-	private JLabel createBanner() {
-		setLayout(new FlowLayout());
-		JLabel imagelabel = new JLabel();
-		imagelabel.setBounds(202, 0, 962, 103);
-		imagelabel.setIcon(new ImageIcon("banner.png"));
-
-		return imagelabel;
-	}
-
-	private JPanel createBackground() {
-		JPanel BG = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		BG.setLayout(null);
-		BG.setBounds(0, 0, 1366, 768);
-		BG.setPreferredSize(new Dimension(1366, 768));
-		BG.setBackground(new Color(0, 108, 90));
-		
-		JButton backButton = new JButton("Back");
-		JButton submitButton = new JButton("Submit");
-		backButton.setBounds(500, 650, 100, 40);
-		submitButton.setBounds(650, 650, 100, 40);
-		BG.add(createBanner());
-		BG.add(createBody());
-		BG.add(backButton);
-		BG.add(submitButton);
-		return BG;
-
-	}
-
-	private JPanel createBody() {
-
-		JPanel main = new JPanel(new FlowLayout(FlowLayout.CENTER));
-		main.setLayout(null);
-		main.setBackground(new Color(255, 255, 255));
-		main.setPreferredSize(new Dimension(962, 600));
-		main.setBounds(202, 104, 962, 665);
-		JLabel title = new JLabel("Results");
-		title.setFont(new Font("Serif", Font.PLAIN, 30));
-		title.setBounds(420, 0, 300, 100);
-		main.add(title);
-		main.add(form());
-		return main;
-
-	}
-	
-	private JPanel form() {
-		// TODO Auto-generated method stub
-		JPanel form = new JPanel();
+		form = new JPanel();
 		JLabel blank = new JLabel();
 		JLabel blank1 = new JLabel();
 		JLabel blank2 = new JLabel();
@@ -105,58 +50,97 @@ public class results extends JFrame{
 		JLabel blank6 = new JLabel();
 		JLabel blank7 = new JLabel();
 		JLabel blank8 = new JLabel();
-		form.setLayout(new GridLayout(7,4,10,10));
-		JLabel wheel = new JLabel("Side-Slip/Alignment Test");
-		JLabel faxel = new JLabel("Front Axel: ");
-		JLabel raxel = new JLabel("Rear Axel: ");
-		JLabel add2 = new JLabel("Rear Axel Near: ");
-		JLabel add3 = new JLabel("Rear Axel Off: ");
-		JLabel make = new JLabel("Front Axel Off:");
-		JLabel date = new JLabel("Suspension Test");
-		JLabel time = new JLabel("Front Axel Near:");
-		JLabel emissions = new JLabel("Emissions Test");
-		JLabel low = new JLabel("Low Idle");
-		JLabel high = new JLabel("High Idle");
-		
-		JTextField snamein = new JTextField(15);
-		JTextField fnamein = new JTextField(15);
-		JTextField add1in = new JTextField(15);
-		JTextField add3in = new JTextField(15);
-		JTextField timein = new JTextField(15);
-		JTextField makein = new JTextField(15);
-		JTextField lowin = new JTextField(15);
-		JTextField highin = new JTextField(15);
+		form.setLayout(new GridLayout(7, 4, 10, 10));
+		JLabel AlignmentTestHeader = new JLabel("Side-Slip/Alignment Test");
+		JLabel FAxel = new JLabel("Front Axel: ");
+		JLabel RAxel = new JLabel("Rear Axel: ");
+		JLabel RearAxelNear = new JLabel("Rear Axel Near: ");
+		JLabel RearAxelOff = new JLabel("Rear Axel Off: ");
+		JLabel FrontAxelOff = new JLabel("Front Axel Off:");
+		JLabel SuspensionTestHeader = new JLabel("Suspension Test");
+		JLabel FrontAxelNear = new JLabel("Front Axel Near:");
+		JLabel emissionsHeader = new JLabel("Emissions Test");
+		JLabel lowIdle = new JLabel("Low Idle");
+		JLabel highIdle = new JLabel("High Idle");
+
+		RearAxelin = new JTextField(15);
+		FrontAxelin = new JTextField(15);
+		RearAxelNearIn = new JTextField(15);
+		FrontAxelNearIn = new JTextField(15);
+		RearAxelOffIn = new JTextField(15);
+		FrontAxelOffIn = new JTextField(15);
+		lowIdlein = new JTextField(15);
+		highIdlein = new JTextField(15);
 		form.setBounds(110, 110, 700, 400);
-		
-		form.add(wheel);
+
+		form.add(AlignmentTestHeader);
 		form.add(blank);
 		form.add(blank1);
 		form.add(blank2);
-		form.add(faxel);
-		form.add(fnamein);
-		form.add(raxel);
-		form.add(snamein);
-		form.add(date);
+		form.add(FAxel);
+		form.add(FrontAxelin);
+		form.add(RAxel);
+		form.add(RearAxelin);
+		form.add(SuspensionTestHeader);
 		form.add(blank3);
 		form.add(blank4);
 		form.add(blank5);
-		form.add(time);
-		form.add(add1in);
-		form.add(add2);
-		form.add(timein);
-		form.add(make);
-		form.add(makein);
-		form.add(add3);
-		form.add(add3in);
-		form.add(emissions);
+		form.add(FrontAxelNear);
+		form.add(FrontAxelNearIn);
+		form.add(RearAxelNear);
+		form.add(RearAxelNearIn);
+		form.add(FrontAxelOff);
+		form.add(FrontAxelOffIn);
+		form.add(RearAxelOff);
+		form.add(RearAxelOffIn);
+		form.add(emissionsHeader);
 		form.add(blank6);
 		form.add(blank7);
 		form.add(blank8);
-		form.add(low);
-		form.add(lowin);
-		form.add(high);
-		form.add(highin);
-		return form;
+		form.add(lowIdle);
+		form.add(lowIdlein);
+		form.add(highIdle);
+		form.add(highIdlein);
+
 	}
-	
+
+	private class BookingHandler implements ActionListener {
+
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			// TODO Auto-generated method stub
+
+			try {
+				Results1DBObject = new DB(dbUser, dbPassword);
+				System.out.println("\n Booking database");
+			} catch (Exception e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				System.out.println("\n Booking database failed");
+			}
+
+			try {
+
+				String sRearAxelin = RearAxelin.getText();
+				String sFrontAxelin = FrontAxelin.getText();
+				String sRearAxelNearIn = RearAxelNearIn.getText();
+				String sFronAxelNearIn = FrontAxelNearIn.getText();
+				String sRearAxelOffIn = RearAxelOffIn.getText();
+				String slowIdlein = lowIdlein.getText();
+				String sHighIdlein = highIdlein.getText();
+
+				DB bookingDB = new DB();
+				Statement callStatement = bookingDB.connect.createStatement();
+
+				String InsertTestResults1 = "INSERT";
+
+				callStatement.execute(InsertTestResults1);
+
+			} catch (SQLException bookingExc) {
+				bookingExc.printStackTrace();
+			}
+
+		}
+	}
+
 }
