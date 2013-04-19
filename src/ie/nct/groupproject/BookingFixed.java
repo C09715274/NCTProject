@@ -1,5 +1,6 @@
 package ie.nct.groupproject;
 
+
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -33,16 +34,27 @@ public class BookingFixed {
 	protected String dbPassword = "rawr";
 	private String customerIDForUpdate = null;
 
-	DB bookingDB = null;
+	DB bookingDB ;
+	
+	
 
 	private void getCustomers(String customerID) {
+		
+	//	int i =  Integer.parseInt(customerID);
+		//System.out.println(customerID+i);
+		//System.out.println("Random string to see if this works");
 
-		String callCustomerForUpdate = "SELECT * FROM Customer WHERE customer_ID ='"
-				+ customerID + "'";
-		PreparedStatement callCustomerStatement;
+		Integer foo = Integer.valueOf(customerID);
+		System.out.println(foo);
+		String callCustomerForUpdate = "SELECT Customer_ID, Customer_First_Name, Customer_Second_Name, Customer_PHNumber" +
+				",Customer_Address1,Customer_Address2,Customer_Address3 FROM Customer WHERE Customer_ID = "+foo;
+	//	PreparedStatement callCustomerStatement;
 		try {
-			callCustomerStatement = bookingDB.connect
+			
+			PreparedStatement callCustomerStatement = bookingDB.connect
 					.prepareStatement(callCustomerForUpdate);
+			
+
 
 			ResultSet callCustomerResults = callCustomerStatement
 					.executeQuery();
@@ -51,7 +63,7 @@ public class BookingFixed {
 						.getString("Customer_First_Name"));
 				snamein.setText(callCustomerResults
 						.getString("Customer_Second_Name"));
-				contactin.setText(callCustomerResults.getString("PHNumber"));
+				contactin.setText(callCustomerResults.getString("Customer_PHNumber"));
 				add1in.setText(callCustomerResults
 						.getString("Customer_Address1"));
 				add2in.setText(callCustomerResults
@@ -67,28 +79,13 @@ public class BookingFixed {
 
 	public BookingFixed(String appointmentKey) {
 
-		if (appointmentKey != null) {
-
-			try {
-				DB bookingDB = new DB(dbUser, dbPassword);
-
-				Statement doAppointment = bookingDB.connect.createStatement();
-
-				String callAppointment = "SELECT * FROM Appointment WHERE Appointment_ID = '"
-						+ appointmentKey + "'";
-
-				doAppointment.execute(callAppointment);
-
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (Exception e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
-		}
 		// TODO Auto-generated method stub
+		try {
+			bookingDB = new DB(dbUser, dbPassword);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 
 		BookingForm = new JPanel();
 		BookingForm.setLayout(new GridLayout(7, 4, 10, 10));
@@ -208,14 +205,15 @@ public class BookingFixed {
 				String STimeIn = timein.getText();
 				String SContactIn = contactin.getText();
 
-				DB bookingDB = new DB();
 				Statement callStatement = bookingDB.connect.createStatement();
 
 				// String selectCustomerID =
 				// "Select Customer_ID From Customer ";
 				if (SCustomerIDin.isEmpty()) {
-					String InsertCustomerDetails = "INSERT INTO Customers (Customer_First_Name, Customer_Last_Name, Customer_PHNumber, Address1, Address2, Address3) "
+					String InsertCustomerDetails = "INSERT INTO Customers (Customer_ID, Customer_First_Name, Customer_Last_Name, Customer_PHNumber, Address1, Address2, Address3) "
 							+ "VALUES('"
+							+null
+							+"', '"
 							+ SFnameIn
 							+ "', '"
 							+ SSnameIn
@@ -225,7 +223,14 @@ public class BookingFixed {
 							+ SAddIn1
 							+ "', '"
 							+ SAddIn2 + "','" + SAddIn3;
-					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"
+					
+					
+					
+					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_ID, Appointment_Creation, Appointment_Time, Appointment_date, Customer_ID) VALUES("
+							+null
+							+","
+							+null
+							+",'"
 							+ STimeIn
 							+ "', '"
 							+ SDateIn
@@ -236,7 +241,11 @@ public class BookingFixed {
 					callStatement.execute(InsertBookingAppointment);
 
 				} else {
-					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_Time, Appointment_date, Customer_ID) VALUES('"
+					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_ID, Appointment_Creation, Appointment_Time, Appointment_date, Customer_ID) VALUES("
+							+null
+							+","
+							+null
+							+",'"
 							+ STimeIn
 							+ "', '"
 							+ SDateIn

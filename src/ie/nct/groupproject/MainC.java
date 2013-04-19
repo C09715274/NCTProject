@@ -19,11 +19,12 @@ public class MainC extends JFrame {
 
 				//	Login LoginObject = new Login();
 					
-				//	BookingFixed BookingTestObject = new BookingFixed(null);
 			//		GUIObject.main.add(BookingTestObject.BookingForm);
 
-					results resultsObject = new results();
-					GUIObject.main.add(resultsObject.form);
+				//	results resultsObject = new results();
+					BookingFixed BookingTestObject = new BookingFixed(null);
+					results2 results2Object = new results2(null);
+					GUIObject.main.add(BookingTestObject.BookingForm);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}

@@ -1,50 +1,77 @@
 package ie.nct.groupproject;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.EventQueue;
-import java.awt.FlowLayout;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.ImageIcon;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.JButton;
 
-@SuppressWarnings("serial")
-public class results2 extends JFrame {
+public class results2 {
 
 	JPanel contentPane;
 	JPanel body;
 	JPanel form;
 
-	JTextField raxelnin;
-	JTextField faxelnin;
-	JTextField parkbreaknin;
-	JTextField parkbreakoin;
-	JTextField faxeloin;
-	JTextField raxeloin;
+	JTextField RearAxleNearIn;
+	JTextField FrontAxleNearIn;
+	JTextField ParkBreakNearIn;
+	JTextField ParkBreakOffIn;
+	JTextField FrontAxleOffIn;
+	JTextField RearAxleOffIn;
 	JTextField ovalfrontnin;
 	JTextField ovalrearnin;
 	JTextField ovalfrontoin;
 	JTextField ovalrearoin;
 
-	DB Results2DBObject = null;
+	DB Results2DBObject = new DB();
 
 	protected String dbUser = "LoginBot";
 	protected String dbPassword = "rawr";
+	
+	String _appointmentID;
 
-	public results2() {
+
+	private void checkIsDone(String appointmentID) {
+
+		String checkIsComplete = "SELECT * FROM Results2 WHERE appointmentId ="
+				+ appointmentID;
+
+		PreparedStatement checkIsCompleteStatement;
+		try {
+			checkIsCompleteStatement = Results2DBObject.connect
+					.prepareStatement(checkIsComplete);
+
+			ResultSet callResults = checkIsCompleteStatement.executeQuery();
+			while (callResults.next()) {
+				RearAxleNearIn.setText(callResults.getString("REARAXLENEAR"));
+				FrontAxleNearIn.setText(callResults.getString("FRONTAXLENEAR"));
+				ParkBreakNearIn.setText(callResults.getString("PARKBREAKNEAR"));
+				ParkBreakOffIn.setText(callResults.getString("PARKBREAKOFF"));
+				FrontAxleOffIn.setText(callResults.getString("FRONTAXLEOFF"));
+				RearAxleOffIn.setText(callResults.getString("REARAXLEOFF"));
+				ovalfrontnin.setText(callResults.getString("FRONTAXLENEAROVALITY"));
+				ovalrearnin.setText(callResults.getString("REARAXLENEAROVALITY"));
+				ovalfrontoin.setText(callResults.getString("REARAXLEOFFOVALITY"));
+				ovalrearoin.setText(callResults.getString("FRONTAXLEOFFOVALITY"));
+
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public results2(String appointmentID) {
 
 		// TODO Auto-generated method stub
-		JPanel form = new JPanel();
+		form = new JPanel();
 		form.setBounds(110, 110, 700, 400);
 		form.setLayout(new GridLayout(7, 4, 10, 10));
 
@@ -56,23 +83,25 @@ public class results2 extends JFrame {
 		JLabel blank8 = new JLabel();
 		JLabel parkbreako = new JLabel("Park Break Off");
 		JLabel effort = new JLabel("Break Effort");
-		JLabel faxeln = new JLabel("Front Axel Near: ");
-		JLabel raxeln = new JLabel("Rear Axel Near: ");
-		JLabel faxelo = new JLabel("Front Axel Off:");
-		JLabel raxelo = new JLabel("Rear Axel Off: ");
+		JLabel faxlen = new JLabel("Front axle Near: ");
+		JLabel raxlen = new JLabel("Rear axle Near: ");
+		JLabel faxleo = new JLabel("Front axle Off:");
+		JLabel raxleo = new JLabel("Rear axle Off: ");
 		JLabel parkbreakn = new JLabel("Park Break Near");
 		JLabel ovality = new JLabel("Ovality");
-		JLabel ovalfrontn = new JLabel("Front Axel Near:");
-		JLabel ovalrearn = new JLabel("Rear Axel Near:");
-		JLabel ovalfronto = new JLabel("Front Axel Off: ");
-		JLabel ovalrearo = new JLabel("Rear Axel Off");
+		JLabel ovalfrontn = new JLabel("Front axle Near:");
+		JLabel ovalrearn = new JLabel("Rear axle Near:");
+		JLabel ovalfronto = new JLabel("Front axle Off: ");
+		JLabel ovalrearo = new JLabel("Rear axle Off");
 
-		raxelnin = new JTextField(15);
-		faxelnin = new JTextField(15);
-		parkbreaknin = new JTextField(15);
-		parkbreakoin = new JTextField(15);
-		faxeloin = new JTextField(15);
-		raxeloin = new JTextField(15);
+		JButton sub = new JButton();
+
+		RearAxleNearIn = new JTextField(15);
+		FrontAxleNearIn = new JTextField(15);
+		ParkBreakNearIn = new JTextField(15);
+		ParkBreakOffIn = new JTextField(15);
+		FrontAxleOffIn = new JTextField(15);
+		RearAxleOffIn = new JTextField(15);
 		ovalfrontnin = new JTextField(15);
 		ovalrearnin = new JTextField(15);
 		ovalfrontoin = new JTextField(15);
@@ -82,18 +111,18 @@ public class results2 extends JFrame {
 		form.add(blank);
 		form.add(blank1);
 		form.add(blank2);
-		form.add(faxeln);
-		form.add(faxelnin);
-		form.add(raxeln);
-		form.add(raxelnin);
-		form.add(faxelo);
-		form.add(faxeloin);
-		form.add(raxelo);
-		form.add(raxeloin);
+		form.add(faxlen);
+		form.add(FrontAxleNearIn);
+		form.add(raxlen);
+		form.add(RearAxleNearIn);
+		form.add(faxleo);
+		form.add(FrontAxleOffIn);
+		form.add(raxleo);
+		form.add(RearAxleOffIn);
 		form.add(parkbreakn);
-		form.add(parkbreaknin);
+		form.add(ParkBreakNearIn);
 		form.add(parkbreako);
-		form.add(parkbreakoin);
+		form.add(ParkBreakOffIn);
 		form.add(ovality);
 		form.add(blank6);
 		form.add(blank7);
@@ -106,9 +135,19 @@ public class results2 extends JFrame {
 		form.add(ovalfrontoin);
 		form.add(ovalrearo);
 		form.add(ovalrearoin);
+
+		if (appointmentID != null) {
+			checkIsDone(appointmentID);
+		}
+
+		form.add(sub);
+
+		Results2Handler Results1HandlerObject = new Results2Handler();
+		sub.addActionListener(Results1HandlerObject);
+
 	}
 
-	private class BookingHandler implements ActionListener {
+	private class Results2Handler implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -125,14 +164,14 @@ public class results2 extends JFrame {
 
 			try {
 
-				String sraxelnin = raxelnin.getText();
-				String sfaxelnin = faxelnin.getText();
+				String sRearAxleNearIn = RearAxleNearIn.getText();
+				String sFrontAxleNearIn = FrontAxleNearIn.getText();
 
-				String sparkbreaknin = parkbreaknin.getText();
-				String sparkbreakoin = parkbreakoin.getText();
+				String sParkBreakNearIn = ParkBreakNearIn.getText();
+				String sParkBreakOffIn = ParkBreakOffIn.getText();
 
-				String sfaxeloin = faxeloin.getText();
-				String sraxeloin = raxeloin.getText();
+				String sFrontAxleOffIn = FrontAxleOffIn.getText();
+				String sRearAxleOffIn = RearAxleOffIn.getText();
 
 				String sovalfrontin = ovalfrontnin.getText();
 				String sovalrearnin = ovalrearnin.getText();
@@ -142,18 +181,20 @@ public class results2 extends JFrame {
 				DB bookingDB = new DB();
 				Statement callStatement = bookingDB.connect.createStatement();
 
-				String InsertTestResults1 = "INSERT INTO Results2 ( RAXELN, FAXELN, PARKBREAKN, FAXELO, RAXELO, OVALFRONTI, OVALREARI, OVALREARO, OVALFRONTI) Values '"
-						+ sraxelnin
+				String InsertTestResults1 = "INSERT INTO Results2 (appointment_id, REARAXLENEAR, FRONTAXLENEAR, PARKBREAKNEAR, PARKBREAKOFF, FRONTAXLEOFF, REARAXLEOFF, FRONAXLENEAROVALITY, REARAXLENEAROVALITY, REARAXLEOFFOVALITY, FRONTAXLEOFFOVALITY) Values '"
+						+ _appointmentID
+						+"', '"
+						+ sRearAxleNearIn
 						+ "', '"
-						+ sfaxelnin
+						+ sFrontAxleNearIn
 						+ "', '"
-						+ sparkbreaknin
+						+ sParkBreakNearIn
 						+ "', '"
-						+ sparkbreakoin
+						+ sParkBreakOffIn
 						+ "', '"
-						+ sfaxeloin
+						+ sFrontAxleOffIn
 						+ "', '"
-						+ sraxeloin
+						+ sRearAxleOffIn
 						+ "', '"
 						+ sovalfrontin
 						+ "', '"

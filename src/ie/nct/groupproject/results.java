@@ -1,23 +1,21 @@
 package ie.nct.groupproject;
 
-import java.awt.Color;
-import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.Font;
+
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import javax.swing.ImageIcon;
+
 import javax.swing.JButton;
-import javax.swing.JFrame;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
-@SuppressWarnings("serial")
 public class results {
 
 	JPanel contentPane;
@@ -33,12 +31,51 @@ public class results {
 	JTextField lowIdlein;
 	JTextField highIdlein;
 
-	DB Results1DBObject = null;
 
 	protected String dbUser = "LoginBot";
 	protected String dbPassword = "rawr";
+	DB Results1DBObject;
 
-	public results() {
+	String _appointmentID;
+	private void checkIsDone(String appointmentID){
+		
+		
+	String checkIsComplete = "SELECT * FROM Results1 WHERE appointmentId ="+ appointmentID;
+		
+		PreparedStatement checkIsCompleteStatement ;
+		try {
+			checkIsCompleteStatement = Results1DBObject.connect
+					.prepareStatement(checkIsComplete);
+
+			ResultSet callResults = checkIsCompleteStatement
+					.executeQuery();
+			while (callResults.next()) {
+				RearAxelin.setText(callResults
+						.getString("REARAXLE"));
+				FrontAxelin.setText(callResults
+						.getString("FRONTAXLE"));
+				RearAxelNearIn.setText(callResults.getString("REARAXLENEAR"));
+				FrontAxelNearIn.setText(callResults
+						.getString("FRONTAXLENEAR"));
+				RearAxelOffIn.setText(callResults
+						.getString("REARAXELOFF"));
+				FrontAxelOffIn.setText(callResults
+						.getString("FRONTAXLEOFF"));
+				lowIdlein.setText(callResults.getString("LOWIDLE"));
+				highIdlein.setText(callResults.getString("HIGHIDLE")
+				);
+				
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+		
+	}
+
+	public results(String appointmentID) {
+		
+		
 		// TODO Auto-generated method stub
 		form = new JPanel();
 		JLabel blank = new JLabel();
@@ -62,6 +99,9 @@ public class results {
 		JLabel emissionsHeader = new JLabel("Emissions Test");
 		JLabel lowIdle = new JLabel("Low Idle");
 		JLabel highIdle = new JLabel("High Idle");
+
+		
+		JButton sub = new JButton("Submit Results");
 
 		RearAxelin = new JTextField(15);
 		FrontAxelin = new JTextField(15);
@@ -101,10 +141,20 @@ public class results {
 		form.add(lowIdlein);
 		form.add(highIdle);
 		form.add(highIdlein);
+		if(appointmentID != null){
+			checkIsDone(appointmentID);
+		}
+		
+		form.add(sub);
+		
+	
+		Results1Handler Results1HandlerObject = new Results1Handler();
+		sub.addActionListener(Results1HandlerObject);
+		
 
 	}
 
-	private class BookingHandler implements ActionListener {
+	private class Results1Handler implements ActionListener {
 
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
@@ -130,12 +180,11 @@ public class results {
 				String slowIdlein = lowIdlein.getText();
 				String sHighIdlein = highIdlein.getText();
 
-				DB bookingDB = new DB();
-				Statement callStatement = bookingDB.connect.createStatement();
+				Statement callStatement = Results1DBObject.connect.createStatement();
 
 				String InsertTestResults1 = "INSERT INTO Results1 " +
-						"(REAXLE, FRONTAXLE, REARAXLENEAR, FRONTAXELNEAR, REARAXLEOFF, FRONTAXLEOF, LOWIDLE, HIGHIDLE) " +
-						"VALUES ('" +sRearAxelin+"', '"+ sFrontAxelin+ "', '"+sRearAxelNearIn+ "', '"+sFrontAxelNearIn+ "', '"+sRearAxelOffIn+ "', '"+sFrontAxelOffIn+ "', '"+slowIdlein+ "', '"+highIdlein+ "')";
+						"(Appointment_ID, REARAXLE, FRONTAXLE, REARAXLENEAR, FRONTAXELNEAR, REARAXLEOFF, FRONTAXLEOF, LOWIDLE, HIGHIDLE) " +
+						"VALUES ('"+_appointmentID+"'" +sRearAxelin+"', '"+ sFrontAxelin+ "', '"+sRearAxelNearIn+ "', '"+sFrontAxelNearIn+ "', '"+sRearAxelOffIn+ "', '"+sFrontAxelOffIn+ "', '"+slowIdlein+ "', '"+sHighIdlein+ "')";
 
 				callStatement.execute(InsertTestResults1);
 
