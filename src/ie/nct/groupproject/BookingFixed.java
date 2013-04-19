@@ -40,14 +40,18 @@ public class BookingFixed {
 
 	private void getCustomers(String customerID) {
 		
-	//	int i =  Integer.parseInt(customerID);
+	int i =  Integer.parseInt(customerID);
 		//System.out.println(customerID+i);
+		//Integer i = Integer.getInteger(CustomerIDin.getText());
+		System.out.println("string: "+customerID+" int: "+i);
+
+		
 		//System.out.println("Random string to see if this works");
 
-		Integer foo = Integer.valueOf(customerID);
-		System.out.println(foo);
+	//	Integer foo = Integer.valueOf(customerID);
+		//System.out.println(foo);
 		String callCustomerForUpdate = "SELECT Customer_ID, Customer_First_Name, Customer_Second_Name, Customer_PHNumber" +
-				",Customer_Address1,Customer_Address2,Customer_Address3 FROM Customer WHERE Customer_ID = "+foo;
+				",Customer_Address1,Customer_Address2,Customer_Address3 FROM Customer WHERE Customer_ID = "+i;
 	//	PreparedStatement callCustomerStatement;
 		try {
 			
@@ -138,7 +142,8 @@ public class BookingFixed {
 		BookingForm.add(contact);
 		BookingForm.add(contactin);
 		BookingForm.add(sub);
-
+		
+		//for edit appointment
 		if (appointmentKey != null) {
 
 			try {
@@ -183,7 +188,7 @@ public class BookingFixed {
 			// TODO Auto-generated method stub
 			
 
-			getCustomers(customerIDForUpdate);
+			getCustomers(CustomerIDin.getText());
 		}
 	}
 
