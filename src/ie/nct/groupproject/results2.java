@@ -37,11 +37,12 @@ public class results2 {
 	
 	String _appointmentID;
 
+	int iAppointmentID;
+	private void checkIsDone() {
 
-	private void checkIsDone(String appointmentID) {
 
 		String checkIsComplete = "SELECT * FROM Results2 WHERE appointmentId ="
-				+ appointmentID;
+				+ iAppointmentID;
 
 		PreparedStatement checkIsCompleteStatement;
 		try {
@@ -69,6 +70,8 @@ public class results2 {
 	}
 
 	public results2(String appointmentID) {
+
+		 iAppointmentID =  Integer.parseInt(appointmentID);
 
 		// TODO Auto-generated method stub
 		form = new JPanel();
@@ -137,7 +140,7 @@ public class results2 {
 		form.add(ovalrearoin);
 
 		if (appointmentID != null) {
-			checkIsDone(appointmentID);
+			checkIsDone();
 		}
 
 		form.add(sub);
@@ -181,9 +184,9 @@ public class results2 {
 				DB bookingDB = new DB();
 				Statement callStatement = bookingDB.connect.createStatement();
 
-				String InsertTestResults1 = "INSERT INTO Results2 (appointment_id, REARAXLENEAR, FRONTAXLENEAR, PARKBREAKNEAR, PARKBREAKOFF, FRONTAXLEOFF, REARAXLEOFF, FRONAXLENEAROVALITY, REARAXLENEAROVALITY, REARAXLEOFFOVALITY, FRONTAXLEOFFOVALITY) Values '"
-						+ _appointmentID
-						+"', '"
+				String InsertTestResults1 = "INSERT INTO Results2 (appointment_id, REARAXLENEAR, FRONTAXLENEAR, PARKBREAKNEAR, PARKBREAKOFF, FRONTAXLEOFF, REARAXLEOFF, FRONAXLENEAROVALITY, REARAXLENEAROVALITY, REARAXLEOFFOVALITY, FRONTAXLEOFFOVALITY) Values("
+						+iAppointmentID
+						+", '"
 						+ sRearAxleNearIn
 						+ "', '"
 						+ sFrontAxleNearIn

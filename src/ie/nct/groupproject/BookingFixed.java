@@ -142,11 +142,12 @@ public class BookingFixed {
 		//for edit appointment
 		
 		if (appointmentKey != null) {
+			int iAppointmentKey  =  Integer.parseInt(appointmentKey);
 
 			try {
 				
-				String callAppointmentForUpdate = "SELECT * FROM Appointment WHERE Appointment_ID = '"
-						+ appointmentKey + "'";
+				String callAppointmentForUpdate = "SELECT * FROM Appointment WHERE Appointment_ID = "
+						+ iAppointmentKey;
 
 				PreparedStatement callAppointmentStatement = bookingDB.connect
 						.prepareStatement(callAppointmentForUpdate);
@@ -225,13 +226,15 @@ public class BookingFixed {
 							+ "', '"
 							+ SAddIn2 + "','" + SAddIn3+"')";
 					int j = -10;
+					
 					callStatement.executeUpdate(InsertCustomerDetails, Statement.RETURN_GENERATED_KEYS);
 					ResultSet getKeys = callStatement.getGeneratedKeys();
 					if(getKeys!=null&&getKeys.next()){
 						j=getKeys.getInt(1);
-						System.out.println(j);
+						
 					}
 					System.out.println("\n customer Id"+ j);
+					
 					String InsertBookingAppointment = "INSERT INTO Appointment (Customer_ID	, Appointment_Time, Appointment_date ) VALUES("
 							+j
 							+",'"
@@ -253,15 +256,27 @@ public class BookingFixed {
 							+ SDateIn
 							+ "', '"
 							+ "')";
-*/
-					callStatement.execute(InsertBookingAppointment);
-
-				} else {
-					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_ID, Appointment_Creation, Appointment_Time, Appointment_date, Customer_ID) VALUES("
+							
+							
+							//This is here because I'm lazy! \/\/
+							
+							String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_ID, Appointment_Creation, Appointment_Time, Appointment_date, Customer_ID) VALUES("
 							+null
 							+","
 							+null
 							+",'"
+							+ STimeIn
+							+ "', '"
+							+ SDateIn
+							+ "', '"
+							+ SCustomerIDin + "')";
+					callStatement.execute(InsertBookingAppointment);
+
+*/
+					callStatement.execute(InsertBookingAppointment);
+
+				} else {
+					String InsertBookingAppointment = "INSERT INTO Appointment ( Appointment_Time, Appointment_date, Customer_ID) VALUES('"
 							+ STimeIn
 							+ "', '"
 							+ SDateIn

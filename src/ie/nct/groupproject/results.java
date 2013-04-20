@@ -36,11 +36,12 @@ public class results {
 	protected String dbPassword = "rawr";
 	DB Results1DBObject;
 
-	String _appointmentID;
+	int iAppointmentID;
 	private void checkIsDone(String appointmentID){
 		
-		
-	String checkIsComplete = "SELECT * FROM Results1 WHERE appointmentId ="+ appointmentID;
+		 iAppointmentID =  Integer.parseInt(appointmentID);
+
+	String checkIsComplete = "SELECT * FROM Results1 WHERE appointmentId ="+ iAppointmentID;
 		
 		PreparedStatement checkIsCompleteStatement ;
 		try {
@@ -184,7 +185,7 @@ public class results {
 
 				String InsertTestResults1 = "INSERT INTO Results1 " +
 						"(Appointment_ID, REARAXLE, FRONTAXLE, REARAXLENEAR, FRONTAXELNEAR, REARAXLEOFF, FRONTAXLEOF, LOWIDLE, HIGHIDLE) " +
-						"VALUES ('"+_appointmentID+"'" +sRearAxelin+"', '"+ sFrontAxelin+ "', '"+sRearAxelNearIn+ "', '"+sFrontAxelNearIn+ "', '"+sRearAxelOffIn+ "', '"+sFrontAxelOffIn+ "', '"+slowIdlein+ "', '"+sHighIdlein+ "')";
+						"VALUES ("+iAppointmentID+"," +sRearAxelin+"', '"+ sFrontAxelin+ "', '"+sRearAxelNearIn+ "', '"+sFrontAxelNearIn+ "', '"+sRearAxelOffIn+ "', '"+sFrontAxelOffIn+ "', '"+slowIdlein+ "', '"+sHighIdlein+ "')";
 
 				callStatement.execute(InsertTestResults1);
 
