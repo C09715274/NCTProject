@@ -40,19 +40,14 @@ public class BookingFixed {
 
 	private void getCustomers(String customerID) {
 		
-	int i =  Integer.parseInt(customerID);
-		//System.out.println(customerID+i);
-		//Integer i = Integer.getInteger(CustomerIDin.getText());
-		System.out.println("string: "+customerID+" int: "+i);
-
+	int iCustomerID =  Integer.parseInt(customerID);
 		
-		//System.out.println("Random string to see if this works");
+		System.out.println("string: "+customerID+" int: "+iCustomerID);
 
-	//	Integer foo = Integer.valueOf(customerID);
-		//System.out.println(foo);
+
 		String callCustomerForUpdate = "SELECT Customer_ID, Customer_First_Name, Customer_Second_Name, Customer_PHNumber" +
-				",Customer_Address1,Customer_Address2,Customer_Address3 FROM Customer WHERE Customer_ID = "+i;
-	//	PreparedStatement callCustomerStatement;
+				",Customer_Address1,Customer_Address2,Customer_Address3 FROM Customer WHERE Customer_ID = "+iCustomerID;
+
 		try {
 			
 			PreparedStatement callCustomerStatement = bookingDB.connect
@@ -119,6 +114,7 @@ public class BookingFixed {
 		datein = new JTextField(15);
 		timein = new JTextField(15);
 		contactin = new JTextField(15);
+		timein.setText("time");
 
 		BookingForm.add(customerID);
 		BookingForm.add(CustomerIDin);
@@ -144,9 +140,11 @@ public class BookingFixed {
 		BookingForm.add(sub);
 		
 		//for edit appointment
+		
 		if (appointmentKey != null) {
 
 			try {
+				
 				String callAppointmentForUpdate = "SELECT * FROM Appointment WHERE Appointment_ID = '"
 						+ appointmentKey + "'";
 
@@ -215,10 +213,8 @@ public class BookingFixed {
 				// String selectCustomerID =
 				// "Select Customer_ID From Customer ";
 				if (SCustomerIDin.isEmpty()) {
-					String InsertCustomerDetails = "INSERT INTO Customers (Customer_ID, Customer_First_Name, Customer_Last_Name, Customer_PHNumber, Address1, Address2, Address3) "
+					String InsertCustomerDetails = "INSERT INTO Customer (Customer_First_Name, Customer_Second_Name, Customer_PHNumber,Customer_Address1, Customer_Address2, Customer_Address3) "
 							+ "VALUES('"
-							+null
-							+"', '"
 							+ SFnameIn
 							+ "', '"
 							+ SSnameIn
@@ -227,11 +223,27 @@ public class BookingFixed {
 							+ "', '"
 							+ SAddIn1
 							+ "', '"
-							+ SAddIn2 + "','" + SAddIn3;
+							+ SAddIn2 + "','" + SAddIn3+"')";
+					int j = -10;
+					callStatement.executeUpdate(InsertCustomerDetails, Statement.RETURN_GENERATED_KEYS);
+					ResultSet getKeys = callStatement.getGeneratedKeys();
+					if(getKeys!=null&&getKeys.next()){
+						j=getKeys.getInt(1);
+						System.out.println(j);
+					}
+					System.out.println("\n customer Id"+ j);
+					String InsertBookingAppointment = "INSERT INTO Appointment (Customer_ID	, Appointment_Time, Appointment_date ) VALUES("
+							+j
+							+",'"
+							+ STimeIn
+							+ "', '"
+							+ SDateIn
+							+ "')";
+
 					
-					
-					
-					String InsertBookingAppointment = "INSERT INTO Appointment (Appointment_ID, Appointment_Creation, Appointment_Time, Appointment_date, Customer_ID) VALUES("
+					/*String InsertBookingAppointment = "INSERT INTO Appointment (Customer_ID, Appointment_ID, Appointment_Creation, Appointment_Time, Appointment_date, ) VALUES("
+							+j
+							+","
 							+null
 							+","
 							+null
@@ -240,9 +252,8 @@ public class BookingFixed {
 							+ "', '"
 							+ SDateIn
 							+ "', '"
-							+ SCustomerIDin + "')";
-
-					callStatement.execute(InsertCustomerDetails);
+							+ "')";
+*/
 					callStatement.execute(InsertBookingAppointment);
 
 				} else {
