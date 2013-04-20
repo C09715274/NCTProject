@@ -97,7 +97,7 @@ public class results2 {
 		JLabel ovalfronto = new JLabel("Front axle Off: ");
 		JLabel ovalrearo = new JLabel("Rear axle Off");
 
-		JButton sub = new JButton();
+		JButton sub = new JButton("submit");
 
 		RearAxleNearIn = new JTextField(15);
 		FrontAxleNearIn = new JTextField(15);
@@ -139,10 +139,7 @@ public class results2 {
 		form.add(ovalrearo);
 		form.add(ovalrearoin);
 
-		if (appointmentID != null) {
-			checkIsDone();
-		}
-
+		
 		form.add(sub);
 
 		Results2Handler Results1HandlerObject = new Results2Handler();
@@ -181,10 +178,9 @@ public class results2 {
 				String sovalfrontoin = ovalfrontoin.getText();
 				String sovalrearoin = ovalrearoin.getText();
 
-				DB bookingDB = new DB();
-				Statement callStatement = bookingDB.connect.createStatement();
+				Statement callStatement = Results2DBObject.connect.createStatement();
 
-				String InsertTestResults1 = "INSERT INTO Results2 (appointment_id, REARAXLENEAR, FRONTAXLENEAR, PARKBREAKNEAR, PARKBREAKOFF, FRONTAXLEOFF, REARAXLEOFF, FRONAXLENEAROVALITY, REARAXLENEAROVALITY, REARAXLEOFFOVALITY, FRONTAXLEOFFOVALITY) Values("
+				String InsertTestResults1 = "INSERT INTO Results2 (appointment_id, REARAXLENEAR, FRONTAXLENEAR, PARKBREAKNEAR, PARKBREAKOFF, FRONTAXLEOFF, REARAXLEOFF, FRONTAXLENEAROVALITY, REARAXLENEAROVALITY, REARAXLEOFFOVALITY, FRONTAXLEOFFOVALITY) Values("
 						+iAppointmentID
 						+", '"
 						+ sRearAxleNearIn

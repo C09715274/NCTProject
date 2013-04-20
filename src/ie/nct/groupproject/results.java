@@ -1,6 +1,5 @@
 package ie.nct.groupproject;
 
-
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +7,6 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-
 
 import javax.swing.JButton;
 
@@ -31,52 +29,44 @@ public class results {
 	JTextField lowIdlein;
 	JTextField highIdlein;
 
-
 	protected String dbUser = "LoginBot";
 	protected String dbPassword = "rawr";
 	DB Results1DBObject;
 
 	int iAppointmentID;
-	private void checkIsDone(String appointmentID){
-		
-		 iAppointmentID =  Integer.parseInt(appointmentID);
 
-	String checkIsComplete = "SELECT * FROM Results1 WHERE appointmentId ="+ iAppointmentID;
-		
-		PreparedStatement checkIsCompleteStatement ;
+	private void checkIsDone(String appointmentID) {
+
+		iAppointmentID = Integer.parseInt(appointmentID);
+
+		String checkIsComplete = "SELECT * FROM Results1 WHERE appointmentId ="
+				+ iAppointmentID;
+
+		PreparedStatement checkIsCompleteStatement;
 		try {
 			checkIsCompleteStatement = Results1DBObject.connect
 					.prepareStatement(checkIsComplete);
 
-			ResultSet callResults = checkIsCompleteStatement
-					.executeQuery();
+			ResultSet callResults = checkIsCompleteStatement.executeQuery();
 			while (callResults.next()) {
-				RearAxelin.setText(callResults
-						.getString("REARAXLE"));
-				FrontAxelin.setText(callResults
-						.getString("FRONTAXLE"));
+				RearAxelin.setText(callResults.getString("REARAXLE"));
+				FrontAxelin.setText(callResults.getString("FRONTAXLE"));
 				RearAxelNearIn.setText(callResults.getString("REARAXLENEAR"));
-				FrontAxelNearIn.setText(callResults
-						.getString("FRONTAXLENEAR"));
-				RearAxelOffIn.setText(callResults
-						.getString("REARAXELOFF"));
-				FrontAxelOffIn.setText(callResults
-						.getString("FRONTAXLEOFF"));
+				FrontAxelNearIn.setText(callResults.getString("FRONTAXLENEAR"));
+				RearAxelOffIn.setText(callResults.getString("REARAXELOFF"));
+				FrontAxelOffIn.setText(callResults.getString("FRONTAXLEOFF"));
 				lowIdlein.setText(callResults.getString("LOWIDLE"));
-				highIdlein.setText(callResults.getString("HIGHIDLE")
-				);
-				
+				highIdlein.setText(callResults.getString("HIGHIDLE"));
+
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 
-		
 	}
 
 	public results(String appointmentID) {
-		
-		
+
 		// TODO Auto-generated method stub
 		form = new JPanel();
 		JLabel blank = new JLabel();
@@ -101,7 +91,6 @@ public class results {
 		JLabel lowIdle = new JLabel("Low Idle");
 		JLabel highIdle = new JLabel("High Idle");
 
-		
 		JButton sub = new JButton("Submit Results");
 
 		RearAxelin = new JTextField(15);
@@ -142,16 +131,11 @@ public class results {
 		form.add(lowIdlein);
 		form.add(highIdle);
 		form.add(highIdlein);
-		if(appointmentID != null){
-			checkIsDone(appointmentID);
-		}
-		
+
 		form.add(sub);
-		
-	
+
 		Results1Handler Results1HandlerObject = new Results1Handler();
 		sub.addActionListener(Results1HandlerObject);
-		
 
 	}
 
@@ -181,11 +165,16 @@ public class results {
 				String slowIdlein = lowIdlein.getText();
 				String sHighIdlein = highIdlein.getText();
 
-				Statement callStatement = Results1DBObject.connect.createStatement();
+				Statement callStatement = Results1DBObject.connect
+						.createStatement();
 
-				String InsertTestResults1 = "INSERT INTO Results1 " +
-						"(Appointment_ID, REARAXLE, FRONTAXLE, REARAXLENEAR, FRONTAXELNEAR, REARAXLEOFF, FRONTAXLEOF, LOWIDLE, HIGHIDLE) " +
-						"VALUES ("+iAppointmentID+"," +sRearAxelin+"', '"+ sFrontAxelin+ "', '"+sRearAxelNearIn+ "', '"+sFrontAxelNearIn+ "', '"+sRearAxelOffIn+ "', '"+sFrontAxelOffIn+ "', '"+slowIdlein+ "', '"+sHighIdlein+ "')";
+				String InsertTestResults1 = "INSERT INTO Results1 "
+						+ "(Appointment_ID, REARAXLE, FRONTAXLE, REARAXLENEAR, FRONTAXLENEAR, REARAXLEOFF, FRONTAXLEOFf, LOWIDLE, HIGHIDLE) VALUES ("
+						+ iAppointmentID + ",'" + sRearAxelin + "', '"
+						+ sFrontAxelin + "', '" + sRearAxelNearIn + "', '"
+						+ sFrontAxelNearIn + "', '" + sRearAxelOffIn + "', '"
+						+ sFrontAxelOffIn + "', '" + slowIdlein + "', '"
+						+ sHighIdlein + "')";
 
 				callStatement.execute(InsertTestResults1);
 

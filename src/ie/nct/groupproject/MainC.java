@@ -23,8 +23,9 @@ public class MainC extends JFrame {
 
 				//	results resultsObject = new results();
 					BookingFixed BookingTestObject = new BookingFixed(null);
-					results2 results2Object = new results2(null);
-					GUIObject.main.add(BookingTestObject.BookingForm);
+					results2 results2Object = new results2("1");
+					results results1Object = new results("1");
+					GUIObject.main.add(results1Object.form);
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
